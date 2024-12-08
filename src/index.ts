@@ -16,6 +16,7 @@ app.listen(PORT,()=>{
 
 
 import { runTerminalCommand } from "./utils/terminalExecution";
+import { addLanguage, getLanguages } from "./repositories/languages";
 
 
 const codeToBeCompiled:string =`
@@ -32,12 +33,15 @@ const processCode=(code:string)=>{
 console.log(processCode(codeToBeCompiled));
 
 (async()=>{
-    try {
-        runTerminalCommand(`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
+    // await addLanguage("python",`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
+    const res=await getLanguages();
+    console.log(res);
+    // try {
+    //     runTerminalCommand(`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
         
-    }catch (error) {
-            console.error(error);
-    }   
+    // }catch (error) {
+    //         console.error(error);
+    // }   
     
 
 })()
