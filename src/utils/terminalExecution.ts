@@ -10,6 +10,7 @@ async function runCommand(command:string) {
         
         if (stderr) {
             console.error(`Stderr: ${stderr}`);
+            return stderr;
         }
         
         return stdout; // Return the command output

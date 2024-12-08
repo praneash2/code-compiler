@@ -5,6 +5,7 @@ import { mainRouter } from "./routes";
 const app=express();
 
 app.use(cors());
+app.use(express.json());
 app.use(mainRouter);
 
 let PORT = 3000;
@@ -32,8 +33,7 @@ console.log(processCode(codeToBeCompiled));
 
 (async()=>{
     try {
-        let output=await runTerminalCommand(`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
-        console.log(output);
+        runTerminalCommand(`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
         
     }catch (error) {
             console.error(error);

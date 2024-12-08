@@ -3,6 +3,6 @@ import { compileRouter } from "./compile";
 
 const mainRouter=Router();
 
-mainRouter.use(compileRouter);
+mainRouter.use("/compile",compileRouter);
 
 export {mainRouter};

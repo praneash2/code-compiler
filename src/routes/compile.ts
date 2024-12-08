@@ -3,6 +3,6 @@ import { compileCode } from "../controllers/compile";
 
 const compileRouter=Router();
 
-compileRouter.get('/',compileCode)
+compileRouter.post('/',compileCode)
 
 export {compileRouter};
