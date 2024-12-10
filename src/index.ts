@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 app.use(mainRouter);
 
-let PORT = 3000;
+let PORT = 5000;
 
 app.listen(PORT,()=>{
     console.log(`Server started listening on ${PORT}`);
@@ -16,7 +16,7 @@ app.listen(PORT,()=>{
 
 
 import { runTerminalCommand } from "./utils/terminalExecution";
-import { addLanguage, getLanguages } from "./repositories/languages";
+import { addLanguage, getLanguages, updateLanguage } from "./repositories/languages";
 
 
 const codeToBeCompiled:string =`
@@ -36,6 +36,8 @@ console.log(processCode(codeToBeCompiled));
     // await addLanguage("python",`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
     const res=await getLanguages();
     console.log(res);
+    // const res=await updateLanguage("python",`docker run --rm -i python:3.9 python -c "$$$"`);
+    // console.log(res);
     // try {
     //     runTerminalCommand(`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
         

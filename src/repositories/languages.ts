@@ -7,7 +7,7 @@ const getLanguages = async()=>{
 }
 
 const addLanguage = async(languageName:string,dockerCommand:string)=>{
-    await prisma.languages.create({
+    return await prisma.languages.create({
         data: {
             languageName: languageName,
             dockerCommand: dockerCommand
@@ -15,4 +15,15 @@ const addLanguage = async(languageName:string,dockerCommand:string)=>{
       });
 }   
 
-export {getLanguages,addLanguage}
+const updateLanguage= async(languageName:string,dockerCommand:string)=>{
+   return await prisma.languages.update({
+        where: {
+            languageName: languageName,
+          },
+          data: {
+            dockerCommand: dockerCommand,
+          },
+    });
+}
+
+export {getLanguages,addLanguage,updateLanguage}
