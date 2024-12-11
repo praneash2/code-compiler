@@ -21,8 +21,6 @@ import { addLanguage, getLanguages, updateLanguage } from "./repositories/langua
 
 const codeToBeCompiled:string =`
 print("Hello, World!")
-for i in range(5):
-    print(i)
 `;
 
 const processCode=(code:string)=>{
@@ -30,12 +28,12 @@ const processCode=(code:string)=>{
     return code.replace(/"/g,"'");
 }
 
-console.log(processCode(codeToBeCompiled));
+// console.log(processCode(codeToBeCompiled));
 
 (async()=>{
     // await addLanguage("python",`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
-    const res=await getLanguages();
-    console.log(res);
+    // const res=await getLanguages();
+    // console.log(res);
     // const res=await updateLanguage("python",`docker run --rm -i python:3.9 python -c "$$$"`);
     // console.log(res);
     // try {
@@ -45,5 +43,25 @@ console.log(processCode(codeToBeCompiled));
     //         console.error(error);
     // }   
     
+    // runTerminalCommand(`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`);
 
 })()
+
+const { spawn } = require('child_process');
+try {
+    const ls = spawn('docker', ['run', '--rm', '-i', 'python:3.9', 'python', '-c', 'print("helllo")']);
+
+    ls.stdout.on('data', (data:string) => {
+    console.log(`stdout: ${data}`);
+    });
+
+    ls.stderr.on('data', (data:string) => {
+    console.error(`stderr: ${data}`);
+    });
+
+    ls.on('close', (code:string) => {
+    console.log(`child process exited with code ${code}`);
+    });
+} catch (error) {
+    console.log("broo",error);
+}
