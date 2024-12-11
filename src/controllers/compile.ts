@@ -3,8 +3,8 @@ import { compileCodeService } from "../services/compile";
 
 const compileCode=async(req:Request,res:Response)=>{
     try{
-        let {language,code}=(req.body);
-        let result =await compileCodeService(language,code);
+        let {language,code,input}=(req.body);
+        let result =await compileCodeService(language,code,input);
         res.send(result );
     }catch(error:any){
         console.log("before");

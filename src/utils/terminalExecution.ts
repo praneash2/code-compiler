@@ -45,7 +45,8 @@ async function runCommand(
     input?: string
 ): Promise<string> {
     return new Promise((resolve, reject) => {
-        const process = spawn(command);
+        
+        const process = spawn(command,args);
 
         let output = '';
         let errorOutput = '';
@@ -68,7 +69,7 @@ async function runCommand(
         // Handle process completion
         process.on('close', (code) => {
             if (code === 0) {
-                resolve(output.trim()); // Resolve with trimmed output
+                resolve(output.trim()); 
             } else {
                 reject(new Error(`Process exited with code ${code}: ${errorOutput.trim()}`));
             }
@@ -77,7 +78,7 @@ async function runCommand(
         // Write to stdin if input is provided
         if (input) {
             process.stdin.write(input);
-            process.stdin.end(); // Signal end of input
+            process.stdin.end(); 
         }
     });
 }
@@ -87,11 +88,15 @@ async function runCommand(
  */
 const runTerminalCommand = async (
     command: string,
-    args: string[] = [],
-    input: string=""
+    codeToBeExecuted:string,
+    input?: string,
 ): Promise<string> => {
     try {
-        return await runCommand(command, args, input);
+        console.log(command);
+        const args=command.split(" ");
+        args.push(codeToBeExecuted);
+        console.log(args);
+        return await runCommand(args[0],args.slice(1) , input);
     } catch (error) {
         console.error(`Error: ${(error as Error).message}`);
         throw error;
