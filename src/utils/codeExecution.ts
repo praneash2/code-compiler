@@ -1,17 +1,28 @@
+import { getLanguage } from "../repositories/languages";
 import { runTerminalCommand } from "./terminalExecution";
 
-const processCode=(code:string)=>{
+const processCode = (code: string) => {
+  return code.replace(/'/g, `"`);
+};
 
-    return code.replace(/"/g,"'");
-}
+const execute = async (language: string, code: string, input: string) => {
+  
+    const commandForLanguage=await getLanguage(language);
+    const dockerCommand=commandForLanguage?.dockerCommand;
 
-
-const execute=async (language:string,code:string,input:string)=>{
-    console.log();
-    if(input.length===0){
-        return await runTerminalCommand(`docker run --rm -i python:3.9 python -c`,processCode(code))
+    if(!dockerCommand){
+        return "not supported";
     }
-    return await runTerminalCommand(`docker run --rm -i python:3.9 python -c`,processCode(code),input)
-}
 
-export {execute};
+    const command = dockerCommand.split("$$$");
+    const bashCommand=command[1].replace(/\|\|\|/,processCode(code));
+    console.log(command[0],"00",bashCommand);
+    const mainCommand=command[0];
+    if (input.length === 0) {
+    return await runTerminalCommand(mainCommand,bashCommand);
+  }
+  return await  runTerminalCommand(mainCommand,bashCommand,input);
+
+};
+
+export { execute };

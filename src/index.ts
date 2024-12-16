@@ -16,7 +16,7 @@ app.listen(PORT,()=>{
 
 
 import { runTerminalCommand } from "./utils/terminalExecution";
-import { addLanguage, getLanguages, updateLanguage } from "./repositories/languages";
+import { addLanguage, getLanguage, getLanguages, updateLanguage } from "./repositories/languages";
 
 
 const codeToBeCompiled:string =`
@@ -32,11 +32,29 @@ const processCode=(code:string)=>{
 // console.log(processCode(codeToBeCompiled));
 
 (async()=>{
+
+    // const commandForLanguage=await getLanguage("cpp");
+    // const dockerCommand=commandForLanguage?.dockerCommand;
+
+    // if(!dockerCommand){
+    //     return "not supported";
+    // }
+
+    // const command = dockerCommand.split("$$$");
+    // const bashCommand=command[1].replace(/\|\|\|/,processCode(codeToBeCompiled));
+    // console.log(command[0],"d",bashCommand);
+
+
+
     // await addLanguage("python",`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
     // const res=await getLanguages();
     // console.log(res);
-    // const res=await updateLanguage("python",`docker run --rm -i python:3.9 python -c "$$$"`);
-    // console.log(res);
+//     const res=await updateLanguage("python",`docker run --rm -i python:3.9 bash -c$$$cat <<EOF > Main.py
+// |||
+// EOF
+// python Main.py
+// `);
+//     console.log(res);
     // try {
     //     runTerminalCommand(`docker run --rm -i python:3.9 python -c "${processCode(codeToBeCompiled)}"`)
         
@@ -44,26 +62,18 @@ const processCode=(code:string)=>{
     //         console.error(error);
     // }   
     
-//    const op= await runTerminalCommand(`docker run --rm -i python:3.9 python -c`,processCode(codeToBeCompiled),"hello");
+//    const op= await runTerminalCommand(`docker run --rm -i gcc:latest bash -c`,`
+// cat <<EOF > program.cpp
+// #include <iostream>
+// int main() {
+//     std::cout << "Another Program";
+//     return 0;
+// }
+// EOF
+// g++ -o program program.cpp &&
+// ./program
+// `);
 //    console.log(op)
 
 })()
 
-// const { spawn } = require('child_process');
-// try {
-//     const ls = spawn('docker', ['run', '--rm', '-i', 'python:3.9', 'python', '-c', 'print("helllo")']);
-
-//     ls.stdout.on('data', (data:string) => {
-//     console.log(`stdout: ${data}`);
-//     });
-
-//     ls.stderr.on('data', (data:string) => {
-//     console.error(`stderr: ${data}`);
-//     });
-
-//     ls.on('close', (code:string) => {
-//     console.log(`child process exited with code ${code}`);
-//     });
-// } catch (error) {
-//     console.log("broo",error);
-// }
