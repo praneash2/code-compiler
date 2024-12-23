@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getLanguages } from "../controllers/languages";
+import { addLanguage, getLanguage } from "../controllers/languages";
 
 const languageRouter=Router();
 
-languageRouter.get('/',getLanguages)
+languageRouter.get('/',getLanguage)
+languageRouter.post("/",addLanguage);
 
 export {languageRouter};

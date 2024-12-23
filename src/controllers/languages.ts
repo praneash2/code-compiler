@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { getLanguagesServices } from "../services/languages";
+import { addLanguagesServices, getLanguagesServices } from "../services/languages";
 import { commonConstants } from "../constants/commonConstants";
 
-const getLanguages=async(req:Request,res:Response)=>{
+const getLanguage=async(req:Request,res:Response)=>{
     try{ 
         // TODO:validate this in the middleware its a string or not
         const languageName=req.query.languageName as string;
@@ -19,4 +19,18 @@ const getLanguages=async(req:Request,res:Response)=>{
     }
 }
 
-export {getLanguages};
+const addLanguage=async(req:Request,res:Response)=>{
+    try{
+        let {languageName,dockerCommand}= req.body;
+        const addLanguageServicesResult=await addLanguagesServices(languageName,dockerCommand);
+        if(addLanguageServicesResult.status===commonConstants.ALREADY_EXISTS){
+            res.send(addLanguageServicesResult.result);
+            return;
+        }
+        res.send(addLanguageServicesResult.result);
+    }catch(error:any){
+        res.send(error.message);
+    }
+}
+
+export {getLanguage,addLanguage};
