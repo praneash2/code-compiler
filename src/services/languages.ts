@@ -1,5 +1,5 @@
 import { commonConstants } from "../constants/commonConstants";
-import { addLanguage, getLanguage } from "../repositories/languages";
+import { addLanguage, getLanguage, updateLanguage } from "../repositories/languages";
 
 const getLanguagesServices=async(languageName:string)=>{
     try{
@@ -29,4 +29,18 @@ const addLanguagesServices=async(languageName:string,dockerCommand:string)=>{
     }
 }
 
-export {getLanguagesServices,addLanguagesServices}
+const updateLanguageService=async(languageName:string,dockerCommand:string)=>{
+    try{
+        const getLanguageResult=await getLanguage(languageName);
+        if(!getLanguageResult){
+            return {status:commonConstants.LANGUAGE_NOT_FOUND,result:commonConstants.LANGUAGE_NOT_FOUND};
+        }
+
+        const updateLanguageResult=await updateLanguage(languageName,dockerCommand);
+        return {status:commonConstants.UPDATED,result:updateLanguageResult};
+    }catch(error:any){
+        throw new Error(error)
+    }
+}
+
+export {getLanguagesServices,addLanguagesServices,updateLanguageService}
